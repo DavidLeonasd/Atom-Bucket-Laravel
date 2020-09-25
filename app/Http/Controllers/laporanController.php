@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\transaksi;
+use App\V_transaksi;
 use \DB;
 class laporanController extends Controller
 {
@@ -34,21 +35,20 @@ class laporanController extends Controller
             'f_tanggal_awal'=>'required',
             'f_tanggal_akhir'=>'required'
         ]);
-        $queryOrderBy='tanggal';
-        $queryOrderAscDesc='asc';
-        $queryBuilder=DB::table('transaksi')
-        ->select('transaksi.*', 'dompet.nama as dompet_nama', 'kategori.nama as kategori_nama')
-        ->join('dompet', 'dompet.id', '=', 'transaksi.dompet_id')
-        ->leftJoin('kategori', 'kategori.id', '=', 'transaksi.kategori_id')
-        ->where('tanggal','>=', $request->input('f_tanggal_awal'))
+
+        $queryBuilder=V_Transaksi
+        ::where('tanggal','>=', $request->input('f_tanggal_awal'))
         ->where('tanggal','<=', $request->input('f_tanggal_akhir'))
         ->whereIn('istransaksimasuk', $request->input('f_transaksi')??[]);
         if($request->input('f_kategori_id')>0)
             $queryBuilder->where('kategori_id','=', $request->input('f_kategori_id')??'kategori_id');
         if($request->input('f_dompet_id')>0)
             $queryBuilder->where('dompet_id','=', $request->input('f_dompet_id')?:'dompet_id');
-        $transaksis=$queryBuilder->orderBy($queryOrderBy, $queryOrderAscDesc)
+        $transaksis=(clone $queryBuilder)
+        ->orderBy('tanggal')
+        ->orderBy('kode')
         ->get();
+
 
         $sumMasuk=(clone $queryBuilder)->where('istransaksimasuk',1)->sum('nilai');
         $sumKeluar=(clone $queryBuilder)->where('istransaksimasuk',0)->sum('nilai');

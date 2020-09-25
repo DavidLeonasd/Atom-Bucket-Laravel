@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\dompet;
+use App\Dompet;
 class dompetController extends Controller
 {
     /**
@@ -13,7 +13,7 @@ class dompetController extends Controller
      */
     public function index()
     {
-        $dompet= dompet::orderBy('id')->paginate(10);
+        $dompet= Dompet::sortable('id')->paginate(10);
         return view('dompet.dompet_home')->with('dompets',$dompet);
     }
 
@@ -43,7 +43,7 @@ class dompetController extends Controller
         ]);
 
         //create record
-        $dompet=new dompet;
+        $dompet=new Dompet;
         $dompet->nama=$request->input('f_nama');
         $dompet->referensi=$request->input('f_referensi');
         $dompet->deskripsi=$request->input('f_deskripsi');
@@ -62,7 +62,7 @@ class dompetController extends Controller
      */
     public function show($id)
     {
-        $dompet=dompet::find($id);
+        $dompet=Dompet::find($id);
         return view('dompet.dompet_detail')->with('dompet', $dompet);
         //
     }
@@ -75,7 +75,7 @@ class dompetController extends Controller
      */
     public function edit($id)
     {
-        $dompet=dompet::find($id);
+        $dompet=Dompet::find($id);
         return view('dompet.dompet_update_form')->with('dompet', $dompet);
     }
 
@@ -92,7 +92,7 @@ class dompetController extends Controller
             'f_nama'=>'required|min:5',
             'f_description'=>'max:100'
         ]);
-        $dompet=dompet::find($id);
+        $dompet=Dompet::find($id);
         $dompet->nama=$request->input('f_nama');
         $dompet->referensi=$request->input('f_referensi');
         $dompet->deskripsi=$request->input('f_deskripsi');
@@ -104,7 +104,7 @@ class dompetController extends Controller
 
     public function updateStatus($id, $isactive)
     {   
-        $dompet=dompet::find($id);
+        $dompet=Dompet::find($id);
         $dompet->isactive=$isactive;
         $dompet->save();
 

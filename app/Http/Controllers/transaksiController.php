@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\transaksi;
+use App\Transaksi;
+use App\V_Transaksi;
 use \DB;
 class transaksiController extends Controller
 {
@@ -18,15 +19,10 @@ class transaksiController extends Controller
             return redirect('/dompet');
         }
         $IsMasuk=$InOut=='masuk'?1:0;
-        $queryOrderBy=$request->query()['orderby']??'tanggal';
-        $queryOrderAscDesc=$request->query()['ascdesc']??'asc';
-        $transaksis=DB::table('transaksi')
-        ->select('transaksi.*', 'dompet.nama as dompet_nama', 'kategori.nama as kategori_nama')
-        ->join('dompet', 'dompet.id', '=', 'transaksi.dompet_id')
-        ->leftJoin('kategori', 'kategori.id', '=', 'transaksi.kategori_id')
-        ->where('istransaksimasuk','=',$IsMasuk)
-        ->orderBy($queryOrderBy, $queryOrderAscDesc)
+        $transaksis=V_Transaksi::where('istransaksimasuk','=',$IsMasuk)
+        ->sortable()
         ->paginate(10);
+
 
         return view('transaksi.transaksi_home')->with('transaksis',$transaksis);
 
@@ -72,7 +68,7 @@ class transaksiController extends Controller
             'f_description'=>'max:100'
         ]);
 
-        $transaksi=new transaksi;
+        $transaksi=new Transaksi;
         DB::beginTransaction();
         try{
             DB::table('transaksi_type')

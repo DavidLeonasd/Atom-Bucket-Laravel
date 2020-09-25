@@ -3,9 +3,9 @@
 <table>
     <tr>
         <th>#</th>
-        <th>NAMA</th>
-        <th>DESKRIPSI</th>
-        <th>STATUS</th>
+        <th>@sortablelink('nama', 'Nama')</th>
+        <th>@sortablelink('deskripsi', 'Deskripsi')</th>
+        <th>@sortablelink('isactive', 'Status')</th>
         <th>ACTIONS</th>
     </tr>
     @foreach ($kategoris as $key=>$item)
@@ -27,7 +27,7 @@
         </tr>
     @endforeach
 </table>
-{{ $kategoris->links() }}
+{!! $kategoris->appends(\Request::except('page'))->render() !!}
 @endsection
 
 

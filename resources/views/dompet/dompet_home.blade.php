@@ -4,10 +4,10 @@
 <table>
     <tr>
         <th>#</th>
-        <th><a href='?asd=1'>NAMA</a></th>
-        <th>REFERENSI</th>
-        <th>DESKRIPSI</th>
-        <th>STATUS</th>
+        <th>@sortablelink('nama', 'Nama')</th>
+        <th>@sortablelink('referensi', 'Referensi')</th>
+        <th>@sortablelink('deskripsi', 'Deskripsi')</th>
+        <th>@sortablelink('isactive', 'Status')</th>
         <th>ACTIONS</th>
     </tr>
     @foreach ($dompets as $key=>$item)
@@ -30,7 +30,7 @@
         </tr>
     @endforeach
 </table>
-{{ $dompets->links() }}
+{!! $dompets->appends(\Request::except('page'))->render() !!}
 @endsection
 
 

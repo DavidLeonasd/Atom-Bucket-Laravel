@@ -4,12 +4,12 @@
 <table>
     <tr>
         <th>#</th>
-        <th>TANGGAL</th>
-        <th>KODE</th>
-        <th>DESKRIPSI</th>
-        <th>KATEGORI</th>
-        <th>NILAI</th>
-        <th>DOMPET</th>
+        <th>@sortablelink('tanggal', 'Tanggal')</th>
+        <th>@sortablelink('kode', 'Kode')</th>
+        <th>@sortablelink('deskripsi', 'Deskripsi')</th>
+        <th>@sortablelink('kategori_nama', 'KATEGORI')</th>
+        <th>@sortablelink('nilai', 'Nilai')</th>
+        <th>@sortablelink('dompet_nama', 'Dompet')</th>
     </tr>
     @foreach ($transaksis as $key=>$item)
         <tr>
@@ -23,7 +23,7 @@
         </tr>
     @endforeach
 </table>
-{{ $transaksis->links() }}
+{!! $transaksis->appends(\Request::except('page'))->render() !!}
 @endsection
 
 

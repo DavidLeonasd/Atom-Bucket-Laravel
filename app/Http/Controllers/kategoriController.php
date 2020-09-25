@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\kategori;
+use App\Kategori;
 class kategoriController extends Controller
 {
     /**
@@ -13,7 +13,7 @@ class kategoriController extends Controller
      */
     public function index()
     {
-        $kategori= kategori::orderBy('id')->paginate(10);
+        $kategori= Kategori::sortable('id')->paginate(10);
         return view('kategori.kategori_home')->with('kategoris',$kategori);
     }
 
@@ -42,7 +42,7 @@ class kategoriController extends Controller
         ]);
 
         //create record
-        $kategori=new kategori;
+        $kategori=new Kategori;
         $kategori->nama=$request->input('f_nama');
         $kategori->deskripsi=$request->input('f_deskripsi');
         $kategori->isactive=$request->input('f_isactive');
@@ -60,7 +60,7 @@ class kategoriController extends Controller
      */
     public function show($id)
     {
-        $kategori=kategori::find($id);
+        $kategori=Kategori::find($id);
         return view('kategori.kategori_detail')->with('kategori', $kategori);
     }
 
@@ -72,7 +72,7 @@ class kategoriController extends Controller
      */
     public function edit($id)
     {
-        $kategori=kategori::find($id);
+        $kategori=Kategori::find($id);
         return view('kategori.kategori_update_form')->with('kategori', $kategori);
     }
 
@@ -89,7 +89,7 @@ class kategoriController extends Controller
             'f_nama'=>'required|min:5',
             'f_description'=>'max:100'
         ]);
-        $kategori=kategori::find($id);
+        $kategori=Kategori::find($id);
         $kategori->nama=$request->input('f_nama');
         $kategori->deskripsi=$request->input('f_deskripsi');
         $kategori->isactive=$request->input('f_isactive');
@@ -100,7 +100,7 @@ class kategoriController extends Controller
 
     public function updateStatus($id, $isactive)
     {   
-        $kategori=kategori::find($id);
+        $kategori=Kategori::find($id);
         $kategori->isactive=$isactive;
         $kategori->save();
 
