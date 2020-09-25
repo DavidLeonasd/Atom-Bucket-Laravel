@@ -19,12 +19,12 @@
             </ul>
             transaksi
             <ul>
-                <li>dompet masuk</li>
-                <li>dompet keluar</li>
+                <li><a href="/transaksi/masuk/a">dompet masuk</a></li>
+                <li><a href="/transaksi/keluar/a">dompet keluar</a></li>
             </ul>
             laporan
             <ul>
-                <li>Laporan Transaksi</li>
+                <li><a href="/laporan/transaksi">Laporan Transaksi</a></li>
             </ul>
         </div>
 
