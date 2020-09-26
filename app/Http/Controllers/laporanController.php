@@ -33,7 +33,9 @@ class laporanController extends Controller
     {
         $this->validate($request,[
             'f_tanggal_awal'=>'required',
-            'f_tanggal_akhir'=>'required'
+            'f_tanggal_akhir'=>'required',
+            'f_tanggal_awal'=>'before:f_tanggal_akhir',
+            'f_transaksi'=>'required'
         ]);
 
         $queryBuilder=V_Transaksi
