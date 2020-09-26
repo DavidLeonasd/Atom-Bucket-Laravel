@@ -1,6 +1,8 @@
 @extends('template')
 @section('content')    
-<h1>Create Kategori</h1>
+<div class="title">
+    <h1>Transaksi Create</h1>
+</div>
 {!! Form::open(['action' => ['transaksiController@store', $listData['ismasuk']==1?'masuk':'keluar'], 'method'=>'POST']) !!}    
     <div class="form-group">
         {{Form::label('f_kode', 'Kode')}}

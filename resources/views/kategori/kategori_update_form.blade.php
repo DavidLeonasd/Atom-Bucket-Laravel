@@ -1,6 +1,8 @@
 @extends('template')
 @section('content')    
-<h1>Create Kategori</h1>
+<div class="title">
+    <h1>Kategori Update</h1>
+</div>
 {!! Form::open(['action' => ['kategoriController@update', $kategori->id], 'method'=>'POST']) !!}
 
     <div class="form-group">

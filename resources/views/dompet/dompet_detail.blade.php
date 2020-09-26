@@ -1,6 +1,8 @@
 @extends('template');
 @section('content')
-    content dompet
+<div class="title">
+    <h1>Dompet Detail</h1>
+</div>
 <table>
     <tr>
         <th>#</th>

@@ -1,6 +1,8 @@
 @extends('template')
 @section('content')    
-<h1>Create Dompet</h1>
+<div class="title">
+    <h1>Create Dompet</h1>
+</div>
 {!! Form::open(['action' => 'dompetController@store', 'method'=>'POST']) !!}
     <div class="form-group">
         {{Form::label('f_nama', 'Nama')}}

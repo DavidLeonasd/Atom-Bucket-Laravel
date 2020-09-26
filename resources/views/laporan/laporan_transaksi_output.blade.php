@@ -1,6 +1,9 @@
 @extends('template');
 @section('content')
-<h1>TRANSAKSI</h1>
+<div class="title">
+    <h1>Laporan Transaksi</h1>
+</div>
+
 <table>
     <tr>
         <th>#</th>

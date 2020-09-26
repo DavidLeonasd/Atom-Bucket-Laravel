@@ -1,6 +1,8 @@
 @extends('template')
 @section('content')    
-<h1>Create Dompet</h1>
+<div class="title">
+    <h1>Dompet Update</h1>
+</div>
 {!! Form::open(['action' => ['dompetController@update', $dompet->id], 'method'=>'POST']) !!}
 
     <div class="form-group">

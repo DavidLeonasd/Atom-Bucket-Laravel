@@ -1,6 +1,8 @@
 @extends('template')
 @section('content')    
-<h1>Create Kategori</h1>
+<div class="title">
+    <h1>Laporan Transaksi Form</h1>
+</div>
 {!! Form::open(['action' =>'laporanController@generateLaporanTransaksi', 'method'=>'POST']) !!}    
     <div class="form-group">
         {{Form::label('f_tanggal_awal', 'Tanggal Awal*')}}
