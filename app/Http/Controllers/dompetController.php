@@ -11,10 +11,31 @@ class dompetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dompet= Dompet::sortable('id')->paginate(10);
-        return view('dompet.dompet_home')->with('dompets',$dompet);
+        $query = Dompet::sortable('id');
+        $filterWord=$request->query('filterword')??'';
+        $filterIsActive=$request->query('filterisactive')??1;
+        $rowPerPage=$request->query('rowperpage')??10;
+        if($filterWord){
+            $query->where(function($innerWhere){
+                global $request;
+                $innerWhere->orwhere('nama','like','%'.$request->query('filterword').'%')
+                ->orwhere('referensi','like','%'.$request->query('filterword').'%')
+                ->orwhere('deskripsi','like','%'.$request->query('filterword').'%');
+            });
+        }
+        $query->where('isactive',$filterIsActive);
+        $dompet=$query->paginate($rowPerPage);
+        $requestQueryString=[
+            'filterWordInput'=>$filterWord,
+            'filterIsActiveValue'=>$filterIsActive,
+            'rowPerPage'=>$rowPerPage
+        ];
+        return view('dompet.dompet_home')->with('params',[
+            'dompets'=>$dompet,
+            'requestQueryString'=>$requestQueryString
+        ]);
     }
 
     /**

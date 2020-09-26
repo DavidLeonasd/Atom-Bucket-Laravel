@@ -11,10 +11,31 @@ class kategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kategori= Kategori::sortable('id')->paginate(10);
-        return view('kategori.kategori_home')->with('kategoris',$kategori);
+        $query = Kategori::sortable('id');
+        $filterWord=$request->query('filterword')??'';
+        $filterIsActive=$request->query('filterisactive')??1;
+        $rowPerPage=$request->query('rowperpage')??10;
+        if($filterWord){
+            $query->where(function($innerWhere){
+                global $request;
+                $innerWhere->orwhere('nama','like','%'.$request->query('filterword').'%');
+                $innerWhere->orwhere('deskripsi','like','%'.$request->query('filterword').'%');
+            });
+        }
+        $query->where('isactive',$filterIsActive);
+        $kategori=$query->paginate($rowPerPage);
+        $requestQueryString=[
+            'filterWordInput'=>$filterWord,
+            'filterIsActiveValue'=>$filterIsActive,
+            'rowPerPage'=>$rowPerPage
+        ];
+
+        return view('kategori.kategori_home')->with('params',[
+            'kategoris'=>$kategori,
+            'requestQueryString'=>$requestQueryString
+        ]);
     }
 
     /**

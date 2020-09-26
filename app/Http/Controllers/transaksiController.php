@@ -18,13 +18,32 @@ class transaksiController extends Controller
         if($InOut!='masuk' && $InOut!='keluar'){
             return redirect('/dompet');
         }
-        $IsMasuk=$InOut=='masuk'?1:0;
-        $transaksis=V_Transaksi::where('istransaksimasuk','=',$IsMasuk)
-        ->sortable()
-        ->paginate(10);
+        $isMasuk=$InOut=='masuk'?1:0;
+        $query=V_Transaksi::where('istransaksimasuk','=',$isMasuk)->sortable();
+        $filterWord=$request->query('filterword')??'';
+        $rowPerPage=$request->query('rowperpage')??10;
 
-
-        return view('transaksi.transaksi_home')->with('transaksis',$transaksis);
+        if($filterWord){
+            $query->where(function ($innerWhere) {
+                global $request;
+                $innerWhere
+                    ->orWhereRaw("DATE_FORMAT(tanggal, '%d-%m-%Y') like '%".$request->query('filterword')."%'")
+                    ->orwhere('kode','like','%'.$request->query('filterword').'%')
+                    ->orwhere('deskripsi','like','%'.$request->query('filterword').'%')
+                    ->orwhere('kategori_nama','like','%'.$request->query('filterword').'%');
+                    // ->orwhere('dompet_nama','like','%'.$request->query('filterword').'%');
+            });
+       }
+        $transaksis=$query->paginate($rowPerPage);
+        $requestQueryString=[
+            'filterWordInput'=>$filterWord,
+            'rowPerPage'=>$rowPerPage
+        ];
+        return view('transaksi.transaksi_home')->with('params',[
+            'transaksis'=>$transaksis,
+            'requestQueryString'=>$requestQueryString,
+            'isMasuk'=>$isMasuk
+        ]);
 
     }
 
@@ -64,7 +83,7 @@ class transaksiController extends Controller
         $this->validate($request, [
             'f_tanggal'=>'required',
             'f_dompet_id'=>'required',
-            'f_nilai'=>'required|min:1',            
+            'f_nilai'=>'gt:0',            
             'f_description'=>'max:100'
         ]);
 
