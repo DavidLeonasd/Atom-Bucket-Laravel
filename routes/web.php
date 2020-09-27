@@ -13,14 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\dompet;
-// Route::get('/', 'PagesController@index');
-// Route::get('/dompet', function () {
-//     return view('welcome2');
-// });
-
 Route::get('/', function () {
-    return view('home');
+    return redirect('/dompet');
 });
 
 
