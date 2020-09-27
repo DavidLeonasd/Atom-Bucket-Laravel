@@ -21,15 +21,15 @@
             <td>{{$item->kode}}</td>
             <td>{{$item->deskripsi}}</td>
             <td>{{$item->kategori_nama}}</td>
-            <td>{{$item->nilai}}</td>
+            <td>{{number_format($item->nilai, 2, ',', '.')}}</td>
             <td>{{$item->dompet_nama}}</td>
         </tr>
     @endforeach
 </table>
 <h1>SUMMARY</h1>
-<p>MASUK : {{$data['transaksisSum']['masuk']}}</p>
-<p>KELUAR : {{$data['transaksisSum']['keluar']}}</p>
-<p>TOTAL : {{$data['transaksisSum']['total']}}</p>
+<p>MASUK : {{number_format($data['transaksisSum']['masuk'], 2, ',', '.')}}</p>
+<p>KELUAR : {{number_format($data['transaksisSum']['keluar'], 2, ',', '.')}}</p>
+<p>TOTAL : {{number_format($data['transaksisSum']['total'], 2, ',', '.')}}</p>
 @endsection
 
 
